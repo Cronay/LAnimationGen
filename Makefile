@@ -14,3 +14,6 @@ clean:
 install: build
 	mkdir -p $(PREFIX)/bin
 	cp -f $(RELEASE_BINARY_FOLDER) $(PREFIX)/bin/$(BINARY)
+
+uninstall:
+	rm -f $(PREFIX)/bin/$(BINARY)
