@@ -1,8 +1,7 @@
-BINARY?=carting
-BUILD_FOLDER?=.build
-OS?=sierra
+BINARY?=lAnimationGen
 PREFIX?=/usr/local
-PROJECT?=Carting
+PROJECT?=LAnimationGen
+BUILD_FOLDER?=.build
 RELEASE_BINARY_FOLDER?=$(BUILD_FOLDER)/release/$(PROJECT)
 VERSION?=0.0.1
 

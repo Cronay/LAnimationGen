@@ -13,7 +13,7 @@ class LAnimationGen {
     let consoleIO = ConsoleIO()
     
     func staticMode() {
-        if isHelpRequested() {
+        if isHelpRequested() || CommandLine.argc < 2 {
             consoleIO.printUsage()
         } else {
             guard let inputPathString = findInput() else {
