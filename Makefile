@@ -12,8 +12,8 @@ clean:
 	swift package clean
 
 install: build
-	mkdir -p $(prefix)/bin
-	cp -f $(release_binary_folder) $(prefix)/bin/$(binary)
+	mkdir -p $(prefix)/
+	sudo cp -f $(release_binary_folder) $(prefix)/bin/$(binary)
 
 uninstall:
 	rm -f $(prefix)/bin/$(binary)
