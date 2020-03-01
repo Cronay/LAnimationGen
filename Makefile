@@ -13,7 +13,7 @@ clean:
 
 install: build
 	mkdir -p $(prefix)/
-	sudo cp -f $(release_binary_folder) $(prefix)/bin/$(binary)
+	cp -f $(release_binary_folder) $(prefix)/bin/$(binary)
 
 uninstall:
 	rm -f $(prefix)/bin/$(binary)
