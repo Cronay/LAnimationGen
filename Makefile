@@ -12,7 +12,7 @@ clean:
 	swift package clean
 
 install: build
-	mkdir -p $(prefix)/
+	mkdir -p $(prefix)/bin/$(binary)
 	cp -f $(release_binary_folder) $(prefix)/bin/$(binary)
 
 uninstall:
