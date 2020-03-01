@@ -3,7 +3,7 @@ prefix=/usr/local
 project=LAnimationGen
 build_folder=.build
 release_binary_folder=$(build_folder)/release/$(project)
-version=v0.1
+version=v0.0.1
 
 build:
 	swift build --disable-sandbox -c release
