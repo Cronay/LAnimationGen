@@ -54,7 +54,7 @@ LAnimationGen can be used from the command line or can be integrated into the Xc
 
 ### Command Line
 ```console
-$ lanimationgen --input <path/to/directory/with/lottie/file> --output <path/to/some/folder>
+$ lanimationgen --input <path/to/directory/with/lottie/files> --output <path/to/some/directory>
 ```
 The input path will be scanned for JSON files and a file called `LAnimation.swift` will be placed in the output path. You might want to make sure that the output directory does exist before running the tool.
 
