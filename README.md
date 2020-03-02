@@ -29,7 +29,7 @@ let animation = MyAnimations.myAnimation
 
 That's nice but this enum needs to be adjusted every time a file is added or removed.
 
-This is were *LAnimationGen* comes in! It generates this these static constants for you so they can be referenced easily and without the risk of making typos within your code.
+This is were *LAnimationGen* comes in! It generates these static constants for you so they can be referenced easily and without the risk of making typos within your code.
 
 Installation
 ------------
