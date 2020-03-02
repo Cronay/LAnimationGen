@@ -8,7 +8,9 @@ Motivation
 
 Lottie animation are used by placing a JSON file describing them within your Xcode project and then referenced like so:
 
-`let animation = Animation.named("my_animation")`.
+```swift
+let animation = Animation.named("my_animation")
+```
 
 This works nice but is prone to errors due to typos which aren't catched by the compiler. With a typo the `animation` is nil and nothing is shown by an `AnimationView`. To circumvent this problem one could create a class, struct or enum with static constants such as:
 
