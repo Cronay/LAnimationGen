@@ -23,7 +23,9 @@ enum MyAnimations {
 ```
 Now we can reference an animation like so:
 
-`let animation = MyAnimations.myAnimation`
+```swift
+let animation = MyAnimations.myAnimation
+```
 
 That's nice but this enum needs to be adjusted every time a file is added or removed.
 
@@ -33,14 +35,14 @@ Installation
 ------------
 ### Homebrew (recommended)
 
-```bash
+```console
 $ brew tap cronay/projects
 $ brew install LAnimationGen
 ```
 
 ### Make
 
-```bash
+```console
 $ git clone https://github.com/Cronay/LAnimationGen.git
 $ cd LAnimationGen
 $ make install
@@ -51,7 +53,7 @@ Usage
 LAnimationGen can be used from the command line or can be integrated into the Xcode build phases of your project. With the latter approach the generated file stays up to date.
 
 ### Command Line
-```bash
+```console
 $ lanimationgen --input <path/to/directory/with/lottie/file> --output <path/to/some/folder>
 ```
 The input path will be scanned for JSON files and a file called `LAnimation.swift` will be placed in the output path. You might want to make sure that the output directory does exist before running the tool.
