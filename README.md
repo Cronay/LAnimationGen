@@ -31,14 +31,14 @@ Installation
 ------------
 ### Homebrew (recommended)
 
-```
+```bash
 $ brew tap cronay/projects
 $ brew install LAnimationGen
 ```
 
 ### Make
 
-```
+```bash
 $ git clone https://github.com/Cronay/LAnimationGen.git
 $ cd LAnimationGen
 $ make install
@@ -49,14 +49,14 @@ Usage
 LAnimationGen can be used from the command line or can be integrated into the Xcode build phases of your project. With the latter approach the generated file stays up to date.
 
 ### Command Line
-```
+```bash
 $ lanimationgen --input <path/to/directory/with/lottie/file> --output <path/to/some/folder>
 ```
 The input path will be scanned for JSON files and a file called `LAnimation.swift` will be placed in the output path. You might want to make sure that the output directory does exist before running the tool.
 
 ### Integration into Xcode project
 It is recommended to run this tool while building your project, so the generated class is in sync with the latest set of Lottie animations. To do so go to your project's Build Phases tab and add another Run Script phase. Make sure to run this phase before the Compile Resources phase. Paste this in there and replace the input and output path: 
-```
+```bash
 if which lanimationgen >/dev/null; then
     lanimationgen --input "$SOURCE_ROOT/path" --output "$SOURCE_ROOT/path"
 else
