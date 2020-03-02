@@ -6,7 +6,7 @@ A simple command line tool it easier to access your [Lottie](https://github.com/
 Motivation
 ----------
 
-Lottie animation are used by placing a JSON file describing them within your Xcode project and then referenced like so:
+Lottie animation are used by placing a JSON file within your Xcode project and then referenced like so:
 
 ```swift
 let animation = Animation.named("my_animation")
