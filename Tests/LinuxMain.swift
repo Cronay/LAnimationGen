@@ -3,5 +3,5 @@ import XCTest
 import LAnimationGenTests
 
 var tests = [XCTestCaseEntry]()
-tests += LAnimationGenTests.allTests()
+//tests += LAnimationGenTests.allTests()
 XCTMain(tests)

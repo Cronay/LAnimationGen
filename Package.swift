@@ -5,6 +5,10 @@ import PackageDescription
 
 let package = Package(
     name: "LAnimationGen",
+    products: [
+        .library(name: "LAnimationGen", targets: ["LAnimationGen"]),
+        .executable(name: "LAnimationGen-CLI", targets: ["LAnimationGenCLI"])
+    ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser", from: "0.2.0"),
     ],
@@ -15,8 +19,13 @@ let package = Package(
                 .product(name: "ArgumentParser",
                          package: "swift-argument-parser")
             ]),
+        .target(
+            name: "LAnimationGenCLI",
+            dependencies: [
+                "LAnimationGen"
+            ]),
         .testTarget(
             name: "LAnimationGenTests",
-            dependencies: ["LAnimationGen"]),
+            dependencies: ["LAnimationGen",]),
     ]
 )

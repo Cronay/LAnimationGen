@@ -7,8 +7,7 @@
 
 import ArgumentParser
 
-
-struct LAnimationGen: ParsableCommand {
+final class LAnimationGen: ParsableCommand {
 
     @Option()
     var input: String
@@ -17,6 +16,10 @@ struct LAnimationGen: ParsableCommand {
     var output: String
 
     func run() throws {
+        // Find the lottie json files
+        
+        // Generate the code with the list of files
 
+        // Generate the file with the code
     }
 }
