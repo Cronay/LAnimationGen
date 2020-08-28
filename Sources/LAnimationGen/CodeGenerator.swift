@@ -9,14 +9,14 @@ import Foundation
 
 class CodeGenerator {
 
-    let codeStart = """
+    private let codeStart = """
                     import Foundation
                     import Lottie
 
                     enum LAnimation {
                     """
 
-    let codeEnd = "}\n"
+    private let codeEnd = "}\n"
 
     func generate(fileList: [String]) -> String {
         let animationAccessors = generateFileAccessors(fileList: fileList)
