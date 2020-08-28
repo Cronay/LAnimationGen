@@ -42,6 +42,17 @@ class FileFinderTests: XCTestCase {
         expectSUT(withFilesInDirectory: ["b.json", "a.json"], toReturn: ["a", "b"])
     }
 
+    func test_fileManagerReturnsError_returnsNil() {
+        let error = NSError(domain: "any error", code: 0)
+        let fileManager = FileManagerMock(result: .error(error))
+        let printer = ConsolePrinter()
+        let sut = FileFinder(inputPath: ".", fileManager: fileManager, printer: printer)
+
+        let foundFiles = sut.findFiles()
+
+        XCTAssertNil(foundFiles)
+    }
+
     // MARK: - Helpers
 
     private func expectSUT(withFilesInDirectory files: [String],
@@ -56,7 +67,7 @@ class FileFinderTests: XCTestCase {
     }
 
     private func makeSUT(withFilesInDirectory files: [String]) -> FileFinder {
-        let fileManager = FileManagerMock(contentsOfDirectory: files)
+        let fileManager = FileManagerMock(result: .success(files))
         let printer = ConsolePrinter()
         let fileFinder = FileFinder(inputPath: ".",
                                     fileManager: fileManager,
@@ -66,20 +77,25 @@ class FileFinderTests: XCTestCase {
 
     private class FileManagerMock: FileManager {
 
-        var contentsOfDirectory: [String]
-
-        convenience init(contentsOfDirectory: [String]) {
-            self.init()
-            self.contentsOfDirectory = contentsOfDirectory
+        enum Result {
+            case success([String])
+            case error(Error)
         }
 
-        private override init() {
-            self.contentsOfDirectory = []
+        var result: Result
+
+        init(result: Result) {
+            self.result = result
             super.init()
         }
 
         override func contentsOfDirectory(atPath path: String) throws -> [String] {
-            return contentsOfDirectory
+            switch result {
+            case .success(let contentOfDirectory):
+                return contentOfDirectory
+            case .error(let error):
+                throw error
+            }
         }
     }
 }
