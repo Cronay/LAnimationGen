@@ -14,11 +14,8 @@ class FileFinderTests: XCTestCase {
     let defaultPrinter = ConsolePrinter()
 
     func test_findNoFilesInEmptyDirectory() {
-        let fileManager = FileManagerMock(contentsOfDirectory: [])
-        let fileFinder = FileFinder(inputPath: defaultInputPath,
-                                    fileManager: fileManager,
-                                    printer: defaultPrinter)
-        let files = fileFinder.findFiles()
+        let sut = makeSUT(filesInDirectory: [])
+        let files = sut.findFiles()
         XCTAssert(files?.count == 0)
     }
 
@@ -94,5 +91,15 @@ class FileFinderTests: XCTestCase {
                                     printer: defaultPrinter)
         let files = fileFinder.findFiles()
         XCTAssert(files == ["a", "b"])
+    }
+
+    // MARK: - Helpers
+
+    private func makeSUT(filesInDirectory: [String]) -> FileFinder {
+        let fileManager = FileManagerMock(contentsOfDirectory: filesInDirectory)
+        let fileFinder = FileFinder(inputPath: defaultInputPath,
+                                    fileManager: fileManager,
+                                    printer: defaultPrinter)
+        return fileFinder
     }
 }
