@@ -7,7 +7,7 @@
 
 import ArgumentParser
 
-final class LAnimationGen: ParsableCommand {
+struct LAnimationGen: ParsableCommand {
 
     @Option()
     var input: String
