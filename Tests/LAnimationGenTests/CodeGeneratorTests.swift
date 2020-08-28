@@ -10,14 +10,14 @@ import XCTest
 
 class CodeGeneratorTests: XCTestCase {
 
-    let codeStart = """
+    private let codeStart = """
                     import Foundation
                     import Lottie
 
                     enum LAnimation {
                     """
 
-    let codeEnd = "}\n"
+    private let codeEnd = "}\n"
 
     func test_generateClassWithoutFile() {
         let codeGenerator = CodeGenerator()
