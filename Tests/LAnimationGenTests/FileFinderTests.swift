@@ -11,7 +11,6 @@ import XCTest
 class FileFinderTests: XCTestCase {
 
     let defaultInputPath = "."
-    let defaultPrinter = ConsolePrinter()
 
     func test_findNoFilesInEmptyDirectory() {
         expectSUT(withFilesInDirectory: [], toReturn: [])
@@ -60,9 +59,10 @@ class FileFinderTests: XCTestCase {
 
     private func makeSUT(withFilesInDirectory files: [String]) -> FileFinder {
         let fileManager = FileManagerMock(contentsOfDirectory: files)
+        let printer = ConsolePrinter()
         let fileFinder = FileFinder(inputPath: defaultInputPath,
                                     fileManager: fileManager,
-                                    printer: defaultPrinter)
+                                    printer: printer)
         return fileFinder
     }
 
