@@ -14,89 +14,73 @@ class FileFinderTests: XCTestCase {
     let defaultPrinter = ConsolePrinter()
 
     func test_findNoFilesInEmptyDirectory() {
-        let sut = makeSUT(filesInDirectory: [])
-        let files = sut.findFiles()
-        XCTAssert(files?.count == 0)
+        let sut = makeSUT(withFilesInDirectory: [])
+
+        let foundFiles = sut.findFiles()
+
+        XCTAssertEqual(foundFiles, [])
     }
 
     func test_findFileInDirectoryWithOneJSONFile() {
-        let filesInDirectory = ["test.json"]
-        let fileManager = FileManagerMock(contentsOfDirectory: filesInDirectory)
-        let fileFinder = FileFinder(inputPath: defaultInputPath,
-                                    fileManager: fileManager,
-                                    printer: defaultPrinter)
-        let files = fileFinder.findFiles()
-        XCTAssert(files?.count == 1)
-        XCTAssert(files == ["test"])
+        let sut = makeSUT(withFilesInDirectory: ["test.json"])
+
+        let foundFiles = sut.findFiles()
+
+        XCTAssertEqual(foundFiles, ["test"])
     }
 
     func test_findNoJSONFileInDirectoryWithOneNonJSONFile() {
-        let filesInDirectory = ["test.xml"]
-        let fileManager = FileManagerMock(contentsOfDirectory: filesInDirectory)
-        let fileFinder = FileFinder(inputPath: defaultInputPath,
-                                    fileManager: fileManager,
-                                    printer: defaultPrinter)
-        let files = fileFinder.findFiles()
-        XCTAssert(files?.count == 0)
+        let sut = makeSUT(withFilesInDirectory: ["test.xml"])
+
+        let foundFiles = sut.findFiles()
+
+        XCTAssertEqual(foundFiles, [])
     }
 
     func test_findOneJSONFileInDirectoryWithAnotherFileType() {
-        let filesInDirectory = ["a.json", "b.xml"]
-        let fileManager = FileManagerMock(contentsOfDirectory: filesInDirectory)
-        let fileFinder = FileFinder(inputPath: defaultInputPath,
-                                    fileManager: fileManager,
-                                    printer: defaultPrinter)
-        let files = fileFinder.findFiles()
-        XCTAssert(files?.count == 1)
-        XCTAssert(files == ["a"])
+        let sut = makeSUT(withFilesInDirectory: ["a.json", "b.xml"])
+
+        let foundFiles = sut.findFiles()
+
+        XCTAssertEqual(foundFiles, ["a"])
     }
 
     func test_findThreeJSONFileInDirectoryWithThreeJSONFiles() {
-        let filesInDirectory = ["a.json", "b.json", "c.json"]
-        let fileManager = FileManagerMock(contentsOfDirectory: filesInDirectory)
-        let fileFinder = FileFinder(inputPath: defaultInputPath,
-                                    fileManager: fileManager,
-                                    printer: defaultPrinter)
-        let files = fileFinder.findFiles()
-        XCTAssert(files?.count == 3)
-        XCTAssert(files == ["a", "b", "c"])
+        let sut = makeSUT(withFilesInDirectory: ["a.json", "b.json", "c.json"])
+
+        let foundFiles = sut.findFiles()
+
+        XCTAssertEqual(foundFiles, ["a", "b", "c"])
     }
 
     func test_findJSONFileWithMultipleDotsInName() {
-        let filesInDirectory = ["a.b.json"]
-        let fileManager = FileManagerMock(contentsOfDirectory: filesInDirectory)
-        let fileFinder = FileFinder(inputPath: defaultInputPath,
-                                    fileManager: fileManager,
-                                    printer: defaultPrinter)
-        let files = fileFinder.findFiles()
-        XCTAssert(files?.count == 1)
-        XCTAssert(files == ["a.b"])
+        let sut = makeSUT(withFilesInDirectory: ["a.b.json"])
+
+        let foundFiles = sut.findFiles()
+
+        XCTAssertEqual(foundFiles, ["a.b"])
     }
 
     func test_ignoreFilesWithoutExtensionInName() {
-        let filesInDirectory = ["a", "b+c", "a-d"]
-        let fileManager = FileManagerMock(contentsOfDirectory: filesInDirectory)
-        let fileFinder = FileFinder(inputPath: defaultInputPath,
-                                    fileManager: fileManager,
-                                    printer: defaultPrinter)
-        let files = fileFinder.findFiles()
-        XCTAssert(files?.count == 0)
+        let sut = makeSUT(withFilesInDirectory: ["a", "b+c", "a-d"])
+
+        let foundFiles = sut.findFiles()
+
+        XCTAssertEqual(foundFiles, [])
     }
 
     func test_orderOfFoundJSONFiles() {
-        let filesInDirectory = ["b.json", "a.json"]
-        let fileManager = FileManagerMock(contentsOfDirectory: filesInDirectory)
-        let fileFinder = FileFinder(inputPath: defaultInputPath,
-                                    fileManager: fileManager,
-                                    printer: defaultPrinter)
-        let files = fileFinder.findFiles()
-        XCTAssert(files == ["a", "b"])
+        let sut = makeSUT(withFilesInDirectory: ["b.json", "a.json"])
+
+        let foundFiles = sut.findFiles()
+
+        XCTAssertEqual(foundFiles, ["a", "b"])
     }
 
     // MARK: - Helpers
 
-    private func makeSUT(filesInDirectory: [String]) -> FileFinder {
-        let fileManager = FileManagerMock(contentsOfDirectory: filesInDirectory)
+    private func makeSUT(withFilesInDirectory files: [String]) -> FileFinder {
+        let fileManager = FileManagerMock(contentsOfDirectory: files)
         let fileFinder = FileFinder(inputPath: defaultInputPath,
                                     fileManager: fileManager,
                                     printer: defaultPrinter)
