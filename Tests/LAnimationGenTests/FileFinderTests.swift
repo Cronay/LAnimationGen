@@ -53,6 +53,18 @@ class FileFinderTests: XCTestCase {
         XCTAssertNil(foundFiles)
     }
 
+    func test_fileManagerReturnsError_printErrorToConsole() {
+        let error = NSError(domain: "any error", code: 0)
+        let fileManager = FileManagerMock(result: .error(error))
+        let printer = PrinterSpy()
+        let sut = FileFinder(inputPath: ".", fileManager: fileManager, printer: printer)
+
+        _ = sut.findFiles()
+
+        XCTAssertEqual(printer.receivedErrorMessage, error.localizedDescription)
+        XCTAssertNil(printer.receivedPrintMessage)
+    }
+
     // MARK: - Helpers
 
     private func expectSUT(withFilesInDirectory files: [String],
@@ -96,6 +108,20 @@ class FileFinderTests: XCTestCase {
             case .error(let error):
                 throw error
             }
+        }
+    }
+
+    private class PrinterSpy: Printer {
+
+        var receivedPrintMessage: String?
+        var receivedErrorMessage: String?
+
+        func print(_ input: String) {
+            receivedPrintMessage = input
+        }
+
+        func error(_ input: String) {
+            receivedErrorMessage = input
         }
     }
 }
