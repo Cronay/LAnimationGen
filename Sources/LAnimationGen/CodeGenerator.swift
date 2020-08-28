@@ -13,7 +13,7 @@ class CodeGenerator {
                     import Foundation
                     import Lottie
 
-                    enum LAnimation {\n
+                    enum LAnimation {
                     """
 
     let codeEnd = "}\n"
@@ -25,8 +25,8 @@ class CodeGenerator {
 
     private func generateFileAccessors(fileList: [String]) -> String {
         let fileAccessors = fileList.reduce("") { result, current -> String in
-            return result + "\n" + "    internal static let \(current) = Animation.named(\"\(current)\")\n"
+            return result + "\n" + "    internal static let \(current) = Animation.named(\"\(current)\")"
         }
-        return fileAccessors
+        return fileAccessors + (fileAccessors.count > 0 ? "\n" : "")
     }
 }

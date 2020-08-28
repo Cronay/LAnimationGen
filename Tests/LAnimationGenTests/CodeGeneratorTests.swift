@@ -14,7 +14,7 @@ class CodeGeneratorTests: XCTestCase {
                     import Foundation
                     import Lottie
 
-                    enum LAnimation {\n
+                    enum LAnimation {
                     """
 
     let codeEnd = "}\n"
@@ -22,14 +22,35 @@ class CodeGeneratorTests: XCTestCase {
     func test_generateClassWithoutFile() {
         let codeGenerator = CodeGenerator()
         let code = codeGenerator.generate(fileList: [])
-        XCTAssertEqual(code, codeStart + codeEnd)
+        XCTAssertEqual(codeStart + codeEnd, code)
     }
 
     func test_generateClassWithOneFile() {
         let codeGenerator = CodeGenerator()
-        let generatedFileAccessor = "    internal static let a = Animation.named(\"a\")\n"
+        let generatedFileAccessor = "    internal static let a = Animation.named(\"a\")"
         let code = codeGenerator.generate(fileList: ["a"])
-        let expectedOutcome = codeStart + "\n" + generatedFileAccessor + codeEnd
-        XCTAssertEqual(code, expectedOutcome)
+        let expectedOutcome = codeStart + "\n"
+            + generatedFileAccessor + "\n"
+            + codeEnd
+        XCTAssertEqual(expectedOutcome, code)
+    }
+
+    func test_generatedClassWithMultipleFiles() {
+        let codeGenerator = CodeGenerator()
+
+        let code = codeGenerator.generate(fileList: ["a", "b", "c"])
+
+        let firstGeneratedLine = "    internal static let a = Animation.named(\"a\")"
+        let secondGeneratedLine = "    internal static let b = Animation.named(\"b\")"
+        let thirdGeneratedLine = "    internal static let c = Animation.named(\"c\")"
+
+        let expectedOutcome = codeStart + "\n"
+            + firstGeneratedLine + "\n"
+            + secondGeneratedLine + "\n"
+            + thirdGeneratedLine + "\n"
+            + codeEnd
+
+
+        XCTAssertEqual(expectedOutcome, code)
     }
 }
