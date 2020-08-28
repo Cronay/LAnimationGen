@@ -14,70 +14,49 @@ class FileFinderTests: XCTestCase {
     let defaultPrinter = ConsolePrinter()
 
     func test_findNoFilesInEmptyDirectory() {
-        let sut = makeSUT(withFilesInDirectory: [])
-
-        let foundFiles = sut.findFiles()
-
-        XCTAssertEqual(foundFiles, [])
+        expectSUT(withFilesInDirectory: [], toReturn: [])
     }
 
     func test_findFileInDirectoryWithOneJSONFile() {
-        let sut = makeSUT(withFilesInDirectory: ["test.json"])
-
-        let foundFiles = sut.findFiles()
-
-        XCTAssertEqual(foundFiles, ["test"])
+        expectSUT(withFilesInDirectory: ["test.json"], toReturn: ["test"])
     }
 
     func test_findNoJSONFileInDirectoryWithOneNonJSONFile() {
-        let sut = makeSUT(withFilesInDirectory: ["test.xml"])
-
-        let foundFiles = sut.findFiles()
-
-        XCTAssertEqual(foundFiles, [])
+        expectSUT(withFilesInDirectory: ["test.xml"], toReturn: [])
     }
 
     func test_findOneJSONFileInDirectoryWithAnotherFileType() {
-        let sut = makeSUT(withFilesInDirectory: ["a.json", "b.xml"])
-
-        let foundFiles = sut.findFiles()
-
-        XCTAssertEqual(foundFiles, ["a"])
+        expectSUT(withFilesInDirectory: ["a.json", "b.xml"], toReturn: ["a"])
     }
 
     func test_findThreeJSONFileInDirectoryWithThreeJSONFiles() {
-        let sut = makeSUT(withFilesInDirectory: ["a.json", "b.json", "c.json"])
-
-        let foundFiles = sut.findFiles()
-
-        XCTAssertEqual(foundFiles, ["a", "b", "c"])
+        expectSUT(withFilesInDirectory: ["a.json", "b.json", "c.json"], toReturn: ["a", "b", "c"])
     }
 
     func test_findJSONFileWithMultipleDotsInName() {
-        let sut = makeSUT(withFilesInDirectory: ["a.b.json"])
-
-        let foundFiles = sut.findFiles()
-
-        XCTAssertEqual(foundFiles, ["a.b"])
+        expectSUT(withFilesInDirectory: ["a.b.json"], toReturn: ["a.b"])
     }
 
     func test_ignoreFilesWithoutExtensionInName() {
-        let sut = makeSUT(withFilesInDirectory: ["a", "b+c", "a-d"])
-
-        let foundFiles = sut.findFiles()
-
-        XCTAssertEqual(foundFiles, [])
+        expectSUT(withFilesInDirectory: ["a", "b+c", "a-d"], toReturn: [])
     }
 
     func test_orderOfFoundJSONFiles() {
-        let sut = makeSUT(withFilesInDirectory: ["b.json", "a.json"])
-
-        let foundFiles = sut.findFiles()
-
-        XCTAssertEqual(foundFiles, ["a", "b"])
+        expectSUT(withFilesInDirectory: ["b.json", "a.json"], toReturn: ["a", "b"])
     }
 
     // MARK: - Helpers
+
+    private func expectSUT(withFilesInDirectory files: [String],
+                           toReturn expectedFiles: [String],
+                           file: StaticString = #file,
+                           line: UInt = #line) {
+        let sut = makeSUT(withFilesInDirectory: files)
+
+        let foundFiles = sut.findFiles()
+
+        XCTAssertEqual(expectedFiles, foundFiles, file: file, line: line)
+    }
 
     private func makeSUT(withFilesInDirectory files: [String]) -> FileFinder {
         let fileManager = FileManagerMock(contentsOfDirectory: files)
