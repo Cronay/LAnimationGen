@@ -44,9 +44,7 @@ class FileFinderTests: XCTestCase {
 
     func test_fileManagerReturnsError_returnsNil() {
         let error = NSError(domain: "any error", code: 0)
-        let fileManager = FileManagerMock(result: .error(error))
-        let printer = ConsolePrinter()
-        let sut = FileFinder(inputPath: ".", fileManager: fileManager, printer: printer)
+        let (sut, _) = makeSUT(withErrorInFileManager: error)
 
         let foundFiles = sut.findFiles()
 
@@ -55,9 +53,7 @@ class FileFinderTests: XCTestCase {
 
     func test_fileManagerReturnsError_printErrorToConsole() {
         let error = NSError(domain: "any error", code: 0)
-        let fileManager = FileManagerMock(result: .error(error))
-        let printer = PrinterSpy()
-        let sut = FileFinder(inputPath: ".", fileManager: fileManager, printer: printer)
+        let (sut, printer) = makeSUT(withErrorInFileManager: error)
 
         _ = sut.findFiles()
 
@@ -85,6 +81,13 @@ class FileFinderTests: XCTestCase {
                                     fileManager: fileManager,
                                     printer: printer)
         return fileFinder
+    }
+
+    private func makeSUT(withErrorInFileManager error: Error) -> (sut: FileFinder, printer: PrinterSpy) {
+        let fileManager = FileManagerMock(result: .error(error))
+        let printer = PrinterSpy()
+        let sut = FileFinder(inputPath: ".", fileManager: fileManager, printer: printer)
+        return (sut, printer)
     }
 
     private class FileManagerMock: FileManager {
