@@ -8,9 +8,9 @@
 import Foundation
 
 final class FileFinder {
-    let inputPath: String
-    let fileManager: FileManager
-    let printer: Printer
+    private let inputPath: String
+    private let fileManager: FileManager
+    private let printer: Printer
 
     init(inputPath: String, fileManager: FileManager, printer: Printer) {
         self.inputPath = inputPath
