@@ -75,7 +75,7 @@ class FileFinderTests: XCTestCase {
 
     private func makeSUT(withFilesInDirectory files: [String]) -> FileFinder {
         let fileManager = FileManagerMock(result: .success(files))
-        let printer = ConsolePrinter()
+        let printer = PrinterSpy()
         let fileFinder = FileFinder(inputPath: ".",
                                     fileManager: fileManager,
                                     printer: printer)
