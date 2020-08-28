@@ -65,4 +65,23 @@ class FileFinderTests: XCTestCase {
                                     printer: defaultPrinter)
         return fileFinder
     }
+
+    private class FileManagerMock: FileManager {
+
+        var contentsOfDirectory: [String]
+
+        convenience init(contentsOfDirectory: [String]) {
+            self.init()
+            self.contentsOfDirectory = contentsOfDirectory
+        }
+
+        private override init() {
+            self.contentsOfDirectory = []
+            super.init()
+        }
+
+        override func contentsOfDirectory(atPath path: String) throws -> [String] {
+            return contentsOfDirectory
+        }
+    }
 }
