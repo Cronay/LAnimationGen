@@ -76,9 +76,7 @@ class FileFinderTests: XCTestCase {
     private func makeSUT(withFilesInDirectory files: [String]) -> FileFinder {
         let fileManager = FileManagerMock(result: .success(files))
         let printer = PrinterSpy()
-        let fileFinder = FileFinder(inputPath: ".",
-                                    fileManager: fileManager,
-                                    printer: printer)
+        let fileFinder = FileFinder(inputPath: ".", fileManager: fileManager, printer: printer)
         return fileFinder
     }
 
@@ -94,13 +92,12 @@ class FileFinderTests: XCTestCase {
     }
 
     private class FileManagerMock: FileManager {
-
         enum Result {
             case success([String])
             case error(Error)
         }
 
-        var result: Result
+        private let result: Result
 
         init(result: Result) {
             self.result = result
@@ -118,7 +115,6 @@ class FileFinderTests: XCTestCase {
     }
 
     private class PrinterSpy: Printer {
-
         var receivedPrintMessage: String?
         var receivedErrorMessage: String?
 
