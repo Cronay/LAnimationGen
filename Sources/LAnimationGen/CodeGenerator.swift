@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CodeGenerator {
+final class CodeGenerator {
 
     private let codeStart = """
                     import Foundation
