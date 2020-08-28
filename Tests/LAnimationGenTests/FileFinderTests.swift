@@ -11,7 +11,6 @@ import XCTest
 class FileFinderTests: XCTestCase {
 
     let defaultInputPath = "."
-    let defaultFileManager = FileManager.default
     let defaultPrinter = ConsolePrinter()
 
     func test_findNoFilesInEmptyDirectory() {
