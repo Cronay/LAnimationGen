@@ -6,6 +6,7 @@
 //
 
 import ArgumentParser
+import Foundation
 
 struct LAnimationGen: ParsableCommand {
 
@@ -16,10 +17,18 @@ struct LAnimationGen: ParsableCommand {
     var output: String
 
     func run() throws {
-        // Find the lottie json files
-        
-        // Generate the code with the list of files
+        let fileManager = FileManager.default
+        let printer = ConsolePrinter()
+        let fileFinder = FileFinder(inputPath: input, fileManager: fileManager, printer: printer)
 
-        // Generate the file with the code
+        guard let foundFiles = fileFinder.findFiles() else { return }
+
+        let generatedCode = CodeGenerator().generate(fileList: foundFiles)
+
+        do {
+            try generatedCode.write(toFile: output + "/LAnimation.swift", atomically: true, encoding: .utf8)
+        } catch {
+            printer.error(error.localizedDescription)
+        }
     }
 }
