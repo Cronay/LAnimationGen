@@ -11,7 +11,10 @@ class NameFormatter {
     static func format(_ names: [String]) -> [String] {
         return names.map { currentName in
             if currentName.contains("_") {
-                let formattedString = formatUnderScores(outOf: currentName)
+                let formattedString = format("_", outOf: currentName)
+                return formattedString
+            } else if currentName.contains("-") {
+                let formattedString = format("-", outOf: currentName)
                 return formattedString
             } else if let firstChar = currentName.first, firstChar.isUppercase {
                 return currentName.lowercased()
@@ -21,8 +24,8 @@ class NameFormatter {
         }
     }
 
-    private static func formatUnderScores(outOf name: String) -> String {
-        let stringParts = name.split(separator: "_").map(String.init)
+    private static func format(_ splitSign: String.Element, outOf name: String) -> String {
+        let stringParts = name.split(separator: splitSign).map(String.init)
         let capitalizedStringParts = capitalizeAllPartsButTheFirst(stringParts: stringParts)
         return capitalizedStringParts.reduce(into: "") { (acc, next) in
             acc.append(next)
@@ -100,6 +103,12 @@ class NameFormatterTests: XCTestCase {
 
     func test_format_uppercasedNameIsNotLowercasedAfterwards() {
         let formattedName = NameFormatter.format(["NAME"])
+
+        XCTAssertEqual(["name"], formattedName)
+    }
+
+    func test_format_nameWithDashInFront() {
+        let formattedName = NameFormatter.format(["-name"])
 
         XCTAssertEqual(["name"], formattedName)
     }
