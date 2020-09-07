@@ -9,15 +9,20 @@ import XCTest
 
 class NameFormatter {
     static func format(_ names: [String]) -> [String] {
-        return names.map {
-            if $0.contains("_") {
-                let stringParts = $0.split(separator: "_").map(String.init)
-                let capitalizedStringParts = capitalizeAllPartsButTheFirst(stringParts: stringParts)
-                return capitalizedStringParts.reduce(into: "") { (acc, next) in
-                    acc.append(next)
-                }
+        return names.map { currentName in
+            if currentName.contains("_") {
+                return formatUnderScores(outOf: currentName)
+            } else {
+                return currentName
             }
-            return $0
+        }
+    }
+
+    private static func formatUnderScores(outOf name: String) -> String {
+        let stringParts = name.split(separator: "_").map(String.init)
+        let capitalizedStringParts = capitalizeAllPartsButTheFirst(stringParts: stringParts)
+        return capitalizedStringParts.reduce(into: "") { (acc, next) in
+            acc.append(next)
         }
     }
 
