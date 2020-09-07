@@ -59,4 +59,10 @@ class NameFormatterTests: XCTestCase {
 
         XCTAssertEqual(["aName"], formattedName)
     }
+
+    func test_format_emptyListOfNamesReturnsEmptyList() {
+        let formattedName = NameFormatter.format([])
+
+        XCTAssertEqual([], formattedName)
+    }
 }
