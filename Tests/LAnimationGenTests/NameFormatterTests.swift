@@ -10,11 +10,11 @@ import XCTest
 class NameFormatter {
     static func format(_ names: [String]) -> [String] {
         return names.map { currentName in
-            if currentName.contains("_") {
-                return formatUnderScores(outOf: currentName)
-            } else {
-                return currentName
+            var formattedString = currentName
+            if formattedString.contains("_") {
+                formattedString = formatUnderScores(outOf: currentName)
             }
+            return formattedString.lowercasedFirstLetter()
         }
     }
 
@@ -39,7 +39,12 @@ class NameFormatter {
             return result
         }
     }
+}
 
+private extension String {
+    func lowercasedFirstLetter() -> String {
+        return prefix(1).lowercased() + dropFirst()
+    }
 }
 
 class NameFormatterTests: XCTestCase {
@@ -64,5 +69,29 @@ class NameFormatterTests: XCTestCase {
         let formattedName = NameFormatter.format([])
 
         XCTAssertEqual([], formattedName)
+    }
+
+    func test_format_listWithASingleEmptyName() {
+        let formattedName = NameFormatter.format([""])
+
+        XCTAssertEqual([""], formattedName)
+    }
+
+    func test_format_nameWithAnUnderScoreAtTheBeginning() {
+        let formattedName = NameFormatter.format(["_name"])
+
+        XCTAssertEqual(["name"], formattedName)
+    }
+
+    func test_format_nameWithAnUnderScoreAtTheEnd() {
+        let formattedName = NameFormatter.format(["name_"])
+
+        XCTAssertEqual(["name"], formattedName)
+    }
+
+    func test_format_capitalizedNameIsNotCapitalizedAfterwards() {
+        let formattedName = NameFormatter.format(["Name"])
+
+        XCTAssertEqual(["name"], formattedName)
     }
 }
