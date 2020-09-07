@@ -10,11 +10,14 @@ import XCTest
 class NameFormatter {
     static func format(_ names: [String]) -> [String] {
         return names.map { currentName in
-            var formattedString = currentName
-            if formattedString.contains("_") {
-                formattedString = formatUnderScores(outOf: currentName)
+            if currentName.contains("_") {
+                let formattedString = formatUnderScores(outOf: currentName)
+                return formattedString
+            } else if let firstChar = currentName.first, firstChar.isUppercase {
+                return currentName.lowercased()
+            } else {
+                return currentName
             }
-            return formattedString.lowercasedFirstLetter()
         }
     }
 
@@ -94,4 +97,11 @@ class NameFormatterTests: XCTestCase {
 
         XCTAssertEqual(["name"], formattedName)
     }
+
+    func test_format_uppercasedNameIsNotLowercasedAfterwards() {
+        let formattedName = NameFormatter.format(["NAME"])
+
+        XCTAssertEqual(["name"], formattedName)
+    }
+
 }
