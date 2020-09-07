@@ -8,28 +8,33 @@
 import XCTest
 
 class NameFormatter {
+
+    private static let capitilizationElements: [String.Element] = ["_", "-", "."]
+    private static let disallowedSymbols = Array("(){}[]")
+
     static func format(_ names: [String]) -> [String] {
         return names.map { currentName in
-            let formattedString = filter(["_", "-"], outOf: currentName)
-            if let firstChar = formattedString.first, firstChar.isUppercase {
-                return formattedString.lowercased()
+            let formattedString = formatCapitalization(at: capitilizationElements, in: currentName)
+            let formattedFilteredString = formattedString.filter { !disallowedSymbols.contains($0) }
+            if let firstChar = formattedFilteredString.first, firstChar.isUppercase {
+                return formattedFilteredString.lowercased()
             } else {
-                return formattedString
+                return formattedFilteredString
             }
         }
     }
 
-    private static func filter(_ elements: [String.Element], outOf name: String) -> String {
+    private static func formatCapitalization(at elements: [String.Element], in name: String) -> String {
         var currentName = name
         elements.forEach { character in
             if currentName.contains(character) {
-                currentName = format(character, outOf: currentName)
+                currentName = formatCapitilization(at: character, in: currentName)
             }
         }
         return currentName
     }
 
-    private static func format(_ splitSign: String.Element, outOf name: String) -> String {
+    private static func formatCapitilization(at splitSign: String.Element, in name: String) -> String {
         let stringParts = name.split(separator: splitSign).map(String.init)
         let capitalizedStringParts = capitalizeAllPartsButTheFirst(stringParts: stringParts)
         return capitalizedStringParts.reduce(into: "") { (acc, next) in
@@ -98,5 +103,13 @@ class NameFormatterTests: XCTestCase {
         let formattedName = NameFormatter.format(namesWithUnderScore)
 
         XCTAssertEqual(["aName", "name", "name", "aNameIsAName", "aName"], formattedName)
+    }
+
+    func test_format_excludedParenthesis() {
+        let namesWithParenthesis = ["a(name", "ana)me", "a]name", "ana[me", "a{name", "ana}me"]
+
+        let formattedNames = NameFormatter.format(namesWithParenthesis)
+
+        XCTAssertEqual(["aname", "aname", "aname", "aname", "aname", "aname"], formattedNames)
     }
 }
