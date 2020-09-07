@@ -10,18 +10,23 @@ import XCTest
 class NameFormatter {
     static func format(_ names: [String]) -> [String] {
         return names.map { currentName in
-            if currentName.contains("_") {
-                let formattedString = format("_", outOf: currentName)
-                return formattedString
-            } else if currentName.contains("-") {
-                let formattedString = format("-", outOf: currentName)
-                return formattedString
-            } else if let firstChar = currentName.first, firstChar.isUppercase {
-                return currentName.lowercased()
+            let formattedString = filter(["_", "-"], outOf: currentName)
+            if let firstChar = formattedString.first, firstChar.isUppercase {
+                return formattedString.lowercased()
             } else {
-                return currentName
+                return formattedString
             }
         }
+    }
+
+    private static func filter(_ elements: [String.Element], outOf name: String) -> String {
+        var currentName = name
+        elements.forEach { character in
+            if currentName.contains(character) {
+                currentName = format(character, outOf: currentName)
+            }
+        }
+        return currentName
     }
 
     private static func format(_ splitSign: String.Element, outOf name: String) -> String {
