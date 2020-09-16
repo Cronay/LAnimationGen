@@ -23,7 +23,9 @@ struct LAnimationGen: ParsableCommand {
 
         guard let foundFiles = fileFinder.findFiles() else { return }
 
-        let generatedCode = CodeGenerator().generate(fileList: foundFiles)
+        let formattedFiles = NameFormatter.format(foundFiles)
+
+        let generatedCode = CodeGenerator().generate(fileList: formattedFiles)
 
         do {
             try generatedCode.write(toFile: output + "/LAnimation.swift", atomically: true, encoding: .utf8)
