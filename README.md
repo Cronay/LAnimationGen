@@ -1,7 +1,7 @@
 LAnimationGen
 =============
 
-A simple command line tool it easier to access your [Lottie](https://github.com/airbnb/lottie-ios) Animations within your Swift code!
+A simple command line tool to make it easier to access your [Lottie](https://github.com/airbnb/lottie-ios) Animations within your Swift code!
 
 Motivation
 ----------
